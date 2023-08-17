@@ -3,7 +3,7 @@
 
 
 ![practica2-1](https://i.imgur.com/AYTygbb.png) <br>
-![practice 4-1](https://i.imgur.com/ozEF5hq.mp4) <br>
+
 
 
 ## Built with
