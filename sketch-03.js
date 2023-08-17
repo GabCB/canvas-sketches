@@ -52,7 +52,8 @@ const sketch = ({ context, width, height }) => {
     agents.forEach(agent => {
       agent.update();
       agent.draw(context);
-      agent.bounce(width, height);
+      //agent.bounce(width, height);
+      agent.wrap(width, height);
     });
   };
 };
@@ -83,6 +84,23 @@ class Agent {
     if (this.pos.x <= 0 || this.pos.x >= width) this.vel.x *= -1;
     if (this.pos.y <= 0 || this.pos.y >= height) this.vel.y *= -1;
   }
+
+  wrap(width, height) {
+    if (this.pos.x > width) this.pos.x = 0;
+    if (this.pos.x < 0) this.pos.x = width;
+
+    if (this.pos.y > height) this.pos.y = 0;
+    if (this.pos.y < 0) this.pos.y = height;
+  } 
+
+  /*wrap(width, height) {
+    if (this.pos.x > width + this.radius) this.pos.x = 0 - this.radius;
+    if (this.pos.x < 0 - this.radius) this.pos.x = width + this.radius;
+
+    if (this.pos.y > height + this.radius) this.pos.y = 0 - this.radius;
+    if (this.pos.y < 0 - this.radius) this.pos.y = height + this.radius;
+  }*/
+  
 
   update() { //to add the velocity to the position
     this.pos.x += this.vel.x;
