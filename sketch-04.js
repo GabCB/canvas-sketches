@@ -7,7 +7,7 @@ const Tweakpane = require('tweakpane');
 
 const settings = {
   dimensions: [ 1080, 1080 ],
-  animate: true // switch to 'true' to animate
+  animate: true// switch to 'true' to animate
 };
 
 const params = {
@@ -17,6 +17,9 @@ const params = {
   scaleMax: 30,
   freq: 0.001,
   amp: 0.2,
+  frame: 0,
+  animate: true,
+  lineCap: 'butt',
 };
 
 const sketch = () => {
@@ -43,9 +46,12 @@ const sketch = () => {
       const y = row * cellh;
       const w = cellw * 0.8;
       const h = cellh * 0.8;
+      
+      const f = params.animate ? frame: params.frame; // conditional in single line
 
       //const n = random.noise2D(x + frame * 10, y, 0.001);
-      const n = random.noise2D(x + frame * 10, y, params.freq);
+      //const n = random.noise2D(x + frame * 10, y, params.freq); //effects go from right to left
+      const n = random.noise3D(x, y, f * 10, params.freq); // to change the effect 
       
       const angle = n * Math.PI * params.amp;
       //const scale = (n + 1) / 2 * 30;
@@ -59,6 +65,7 @@ const sketch = () => {
       context.rotate(angle);
 
       context.lineWidth = scale;
+      context.lineCap = params.lineCap;
 
       context.beginPath();
       context.moveTo(w * -0.5, 0);
@@ -79,6 +86,7 @@ const createPane = () => {
   let folder;
 
   folder = pane.addFolder({ title: 'Grid'});
+  folder.addInput(params, 'lineCap', { options: { butt: 'butt', round: 'round', square: 'square'}});
   folder.addInput(params, 'cols', { min: 2, max: 50, step: 1 });
   folder.addInput(params, 'rows', { min: 2, max: 50, step: 1 });
   folder.addInput(params, 'scaleMin', { min: 1, max: 100 });
@@ -87,7 +95,8 @@ const createPane = () => {
   folder = pane.addFolder({ title: 'Noise'});
   folder.addInput(params, 'freq', { min: -0.01, max: 0.01});
   folder.addInput(params, 'amp', { min: 0, max: 1});
-
+  folder.addInput(params, 'frame', { min: 0, max: 999 });
+  folder.addInput(params, 'animate');
 };
 
 createPane();
