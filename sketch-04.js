@@ -10,13 +10,18 @@ const settings = {
   animate: false
 };
 
+const params = {
+  cols: 10,
+  rows: 10
+};
+
 const sketch = () => {
   return ({ context, width, height, frame }) => {
     context.fillStyle = 'white';
     context.fillRect(0, 0, width, height);
 
-    const cols = 10;
-    const rows = 10;
+    const cols = params.cols;
+    const rows = params.rows;
     const numCells = cols * rows;
 
     const gridw = width * 0.8;
@@ -28,7 +33,7 @@ const sketch = () => {
 
     for (let i = 0; i < numCells; i++) {
       const col = i % cols;
-      const row = Math.floor(i/cols);
+      const row = Math.floor(i / cols);
 
       const x = col * cellw;
       const y = row * cellh;
@@ -49,6 +54,7 @@ const sketch = () => {
 
       context.lineWidth = scale;
 
+      context.beginPath();
       context.moveTo(w * -0.5, 0);
       context.lineTo(w * 0.5, 0);
       context.stroke();
@@ -62,4 +68,16 @@ const sketch = () => {
   };
 };
 
+const createPane = () => {
+  const pane = new Tweakpane.Pane();
+  let folder;
+
+  folder = pane.addFolder({ title: 'Grid'});
+  folder.addInput(params, 'cols', { min: 2, max: 50, step: 1 });
+  folder.addInput(params, 'rows', { min: 2, max: 50, step: 1 });
+
+
+};
+
+createPane();
 canvasSketch(sketch, settings);
