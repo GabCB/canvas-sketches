@@ -7,12 +7,16 @@ const Tweakpane = require('tweakpane');
 
 const settings = {
   dimensions: [ 1080, 1080 ],
-  animate: false
+  animate: true // switch to 'true' to animate
 };
 
 const params = {
   cols: 10,
-  rows: 10
+  rows: 10,
+  scaleMin: 1,
+  scaleMax: 30,
+  freq: 0.001,
+  amp: 0.2,
 };
 
 const sketch = () => {
@@ -40,11 +44,13 @@ const sketch = () => {
       const w = cellw * 0.8;
       const h = cellh * 0.8;
 
-      const n = random.noise2D(x + frame * 10, y, 0.001);
-      const angle = n * Math.PI * 0.2;
+      //const n = random.noise2D(x + frame * 10, y, 0.001);
+      const n = random.noise2D(x + frame * 10, y, params.freq);
+      
+      const angle = n * Math.PI * params.amp;
       //const scale = (n + 1) / 2 * 30;
       //const scale = (n * 0.5 + 0.5) * 30;
-      const scale = math.mapRange(n, -1, 1, 1, 30);
+      const scale = math.mapRange(n, -1, 1, params.scaleMin, params.scaleMax);
 
       context.save();
       context.translate(x, y);
@@ -75,7 +81,12 @@ const createPane = () => {
   folder = pane.addFolder({ title: 'Grid'});
   folder.addInput(params, 'cols', { min: 2, max: 50, step: 1 });
   folder.addInput(params, 'rows', { min: 2, max: 50, step: 1 });
+  folder.addInput(params, 'scaleMin', { min: 1, max: 100 });
+  folder.addInput(params, 'scaleMax', { min: 1, max: 100 });
 
+  folder = pane.addFolder({ title: 'Noise'});
+  folder.addInput(params, 'freq', { min: -0.01, max: 0.01});
+  folder.addInput(params, 'amp', { min: 0, max: 1});
 
 };
 
