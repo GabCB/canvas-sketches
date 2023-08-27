@@ -13,6 +13,7 @@
 ## Libraries
 - Canvas Sketch
 - Canvas Sketch Util
+- Tweakpane
 
 
 ## Links
