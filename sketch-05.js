@@ -117,10 +117,23 @@ const getGlyph = (v) => {
 
 };
 
+const onKeyUp = (e) => {
+	text = e.key.toUpperCase();
+	manager.render();
+};
 
+document.addEventListener('keyup', onKeyUp);
+
+
+const start = async () => {
+	manager = await canvasSketch(sketch, settings);
+};
+
+start();
 
 //to update the glif when we press a key
 
+/*
 const onKeyUp = (e) => { 
   text =e.key.toUpperCase();
   manager.render();
@@ -133,3 +146,4 @@ const start = async () => {
 };
 
 start();
+*/
